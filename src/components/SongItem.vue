@@ -16,8 +16,9 @@
       <router-link
         :to="{ name: 'song', params: { id: song.docID } }"
         class="font-bold block text-gray-600"
-        >{{ song.modified_name }}</router-link
       >
+        {{ song.modified_name }}
+      </router-link>
       <span class="text-gray-500 text-sm">{{ song.name }}</span>
     </div>
 
@@ -31,7 +32,10 @@
         }"
         v-slot="{ navigate }"
       >
-        <span class="comments" @click="navigate">
+        <span
+          class="comments"
+          @click="navigate"
+        >
           <i class="fa fa-comments text-gray-600" />
           {{ song.comments_count }}
         </span>
@@ -42,8 +46,8 @@
 
 <script>
 export default {
-  name: "SongItem",
-  props: ["song"],
+  name: 'SongItem',
+  props: ['song'],
 };
 </script>
 

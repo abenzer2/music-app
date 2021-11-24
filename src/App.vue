@@ -3,8 +3,11 @@
   <app-header />
 
   <router-view v-slot="{ Component }">
-    <transition name="fade" mode="out-in">
-      <Component :is="Component"> </Component>
+    <transition
+      name="fade"
+      mode="out-in"
+    >
+      <Component :is="Component" />
     </transition>
   </router-view>
 
@@ -16,19 +19,19 @@
 </template>
 
 <script>
-import AppHeader from "./components/Header.vue";
-import AuthModal from "./components/Auth.vue";
-import AppPlayer from "./components/Player.vue";
+import AppHeader from './components/Header.vue';
+import AuthModal from './components/Auth.vue';
+import AppPlayer from './components/Player.vue';
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     AppHeader,
     AuthModal,
     AppPlayer,
   },
   created() {
-    this.$store.dispatch("init_login");
+    this.$store.dispatch('init_login');
   },
 };
 </script>

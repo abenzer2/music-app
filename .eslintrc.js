@@ -36,8 +36,8 @@ module.exports = {
     '@vue/airbnb',
   ],
 
-  'extends': [
+  extends: [
     'plugin:vue/strongly-recommended',
-    '@vue/airbnb'
-  ]
+    '@vue/airbnb',
+  ],
 };

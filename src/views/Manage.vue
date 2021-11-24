@@ -3,7 +3,10 @@
   <section class="container mx-auto mt-6">
     <div class="md:grid md:grid-cols-3 md:gap-4">
       <div class="col-span-1">
-        <upload ref="upload" :addSong="addSong" />
+        <upload
+          ref="upload"
+          :add-song="addSong"
+        />
       </div>
       <div class="col-span-2">
         <div
@@ -13,7 +16,7 @@
             <span class="card-title">My Songs</span>
             <i
               class="fa fa-compact-disc float-right text-green-400 text-2xl"
-            ></i>
+            />
           </div>
           <div class="p-6">
             <!-- Composition Items -->
@@ -21,10 +24,10 @@
               v-for="(song,i) in songs"
               :key="song.docId"
               :song="song"
-              :updateSong="updateSong"
+              :update-song="updateSong"
               :index="i"
-              :removeSong="removeSong"
-              :updateUnsavedFlag="updateUnsavedFlag"
+              :remove-song="removeSong"
+              :update-unsaved-flag="updateUnsavedFlag"
             />
           </div>
         </div>
@@ -33,19 +36,18 @@
   </section>
 </template>
 
-
 <script>
 // import store from '../store/index'
-import Upload from "../components/upload.vue";
-import { songsCollection, auth } from "../includes/firebase";
-import CompositionItem from "../components/CompositionItem.vue";
+import Upload from '../components/upload.vue';
+import { songsCollection, auth } from '../includes/firebase';
+import CompositionItem from '../components/CompositionItem.vue';
 
 export default {
-  name: "Manage",
+  name: 'Manage',
   data() {
     return {
       songs: [],
-      unsavedFlag: false
+      unsavedFlag: false,
     };
   },
   components: {
@@ -58,35 +60,34 @@ export default {
       this.songs[i].genre = values.genre;
     },
     removeSong(i) {
-      this.songs.splice(i,1);
+      this.songs.splice(i, 1);
     },
     addSong(document) {
       const song = {
         ...document.data(),
         docId: document.id,
-      } 
+      };
 
-      this.songs.push(song)
+      this.songs.push(song);
     },
     updateUnsavedFlag(value) {
-      this.unsavedFlag = value
-    } 
+      this.unsavedFlag = value;
+    },
   },
   async created() {
     const snapshot = await songsCollection
-      .where("uid", "==", auth.currentUser.uid)
+      .where('uid', '==', auth.currentUser.uid)
       .get();
     snapshot.forEach(this.addSong);
   },
-  beforeRouteLeave(to, from , next) {
-    if(!this.unsavedFlag){
+  beforeRouteLeave(to, from, next) {
+    if (!this.unsavedFlag) {
       next();
+    } else {
+      const leave = confirm('You have unsaved changes. Are you sure you want to leave');
+      next(leave);
     }
-    else {
-      const leave=confirm("You have unsaved changes. Are you sure you want to leave");
-        next(leave);
-    }
-  }
+  },
   // beforeRouteLeave(to, from ,next) {
   //   this.$refs.upload.cancelUploads();
   //   next();

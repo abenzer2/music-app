@@ -32,7 +32,10 @@
         placeholder="Enter Name"
       />
 
-      <ErrorMessage class="text-red-600" name="name" />
+      <ErrorMessage
+        class="text-red-600"
+        name="name"
+      />
     </div>
     <!-- Email -->
     <div class="mb-3">
@@ -55,7 +58,10 @@
         placeholder="Enter Email"
       />
 
-      <ErrorMessage class="text-red-600" name="email" />
+      <ErrorMessage
+        class="text-red-600"
+        name="email"
+      />
     </div>
     <!-- Age -->
     <div class="mb-3">
@@ -77,12 +83,19 @@
         "
       />
 
-      <ErrorMessage class="text-red-600" name="age" />
+      <ErrorMessage
+        class="text-red-600"
+        name="age"
+      />
     </div>
     <!-- Password -->
     <div class="mb-3">
       <label class="inline-block mb-2">Password</label>
-      <vee-field name="password" :bails="false" v-slot="{ field, errors }">
+      <vee-field
+        name="password"
+        :bails="false"
+        v-slot="{ field, errors }"
+      >
         <input
           class="
             block
@@ -99,12 +112,19 @@
           type="password"
           placeholder="password"
           v-bind="field"
-        />
-        <div class="text-red-600" v-for="error in errors" :key="error">
+        >
+        <div
+          class="text-red-600"
+          v-for="error in errors"
+          :key="error"
+        >
           {{ error }}
         </div>
       </vee-field>
-      <ErrorMessage class="text-red-600" name="password" />
+      <ErrorMessage
+        class="text-red-600"
+        name="password"
+      />
     </div>
     <!-- Confirm Password -->
     <div class="mb-3">
@@ -126,7 +146,10 @@
         "
         placeholder="Confirm Password"
       />
-      <ErrorMessage class="text-red-600" name="confirm_password" />
+      <ErrorMessage
+        class="text-red-600"
+        name="confirm_password"
+      />
     </div>
     <!-- Country -->
     <div class="mb-3">
@@ -147,12 +170,23 @@
           rounded
         "
       >
-        <option value="USA">USA</option>
-        <option value="Mexico">Mexico</option>
-        <option value="Germany">Germany</option>
-        <option value="antarctica">Antarctica</option>
+        <option value="USA">
+          USA
+        </option>
+        <option value="Mexico">
+          Mexico
+        </option>
+        <option value="Germany">
+          Germany
+        </option>
+        <option value="antarctica">
+          Antarctica
+        </option>
       </vee-field>
-      <ErrorMessage class="text-red-600" name="country" />
+      <ErrorMessage
+        class="text-red-600"
+        name="country"
+      />
     </div>
     <!-- TOS -->
     <div class="mb-3 pl-6">
@@ -162,8 +196,17 @@
         type="checkbox"
         class="w-4 h-4 float-left -ml-6 mt-1 rounded"
       />
-      <label class="inline-block">Accept terms of service</label>
-      <ErrorMessage class="text-red-600" name="tos" />
+      <i18n-t
+        class="inline-block"
+        keypath="register.accept"
+        tag="label"
+      >
+        <a href="#">{{ $t('register.TOS') }}</a>
+      </i18n-t>
+      <ErrorMessage
+        class="text-red-600"
+        name="tos"
+      />
     </div>
     <button
       type="submit"
@@ -188,24 +231,24 @@
 <script>
 
 export default {
-  name: "RegisterForm",
+  name: 'RegisterForm',
   data() {
     return {
       schema: {
-        name: "required|min:3|max:100|alpha_spaces",
-        email: "required|email",
-        age: "required|min_value:18|max_value:100",
-        password: "required|min:3|max:100",
-        confirm_password: "passwords_mismatch:@password",
-        country: "required|country_excluded:antarctica",
-        tos: "tos",
+        name: 'required|min:3|max:100|alpha_spaces',
+        email: 'required|email',
+        age: 'required|min_value:18|max_value:100',
+        password: 'required|min:3|max:100',
+        confirm_password: 'passwords_mismatch:@password',
+        country: 'required|country_excluded:antarctica',
+        tos: 'tos',
       },
       reg_in_submission: false,
       reg_show_alert: false,
-      reg_alert_variant: "bg-blue-500",
-      reg_alert_msg: "Please wait! your account is being created",
+      reg_alert_variant: 'bg-blue-500',
+      reg_alert_msg: 'Please wait! your account is being created',
       userData: {
-        country: "USA",
+        country: 'USA',
       },
     };
   },
@@ -213,26 +256,23 @@ export default {
     async register(values) {
       this.reg_show_alert = true;
       this.reg_in_submission = true;
-      this.reg_alert_variant = "bg-blue-500";
-      this.reg_alert_msg = "Please wait! your account is being created";
+      this.reg_alert_variant = 'bg-blue-500';
+      this.reg_alert_msg = 'Please wait! your account is being created';
 
       try {
-       
-       await this.$store.dispatch('register', values);
-
+        await this.$store.dispatch('register', values);
       } catch (error) {
         this.reg_in_submission = false;
-        this.reg_alert_variant = "bg-red-500";
-        this.reg_alert_msg = "An Expected error occured";
+        this.reg_alert_variant = 'bg-red-500';
+        this.reg_alert_msg = 'An Expected error occured';
         console.log(error);
         return;
       }
 
-      this.reg_alert_variant = "bg-green-500";
-      this.reg_alert_msg = "Success! your account has been created";
+      this.reg_alert_variant = 'bg-green-500';
+      this.reg_alert_msg = 'Success! your account has been created';
       window.location.reload();
     },
   },
 };
 </script>
-

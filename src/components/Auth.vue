@@ -22,9 +22,9 @@
       </div>
 
       <!-- This element is to trick the browser into centering the modal contents. -->
-      <span class="hidden sm:inline-block sm:align-middle sm:h-screen"
-        >&#8203;</span
-      >
+      <span
+        class="hidden sm:inline-block sm:align-middle sm:h-screen"
+      >&#8203;</span>
 
       <div
         class="
@@ -44,7 +44,9 @@
         <div class="py-4 text-left px-6">
           <!--Title-->
           <div class="flex justify-between items-center pb-4">
-            <p class="text-2xl font-bold">Your Account</p>
+            <p class="text-2xl font-bold">
+              Your Account
+            </p>
             <!-- Modal Close Button -->
             <div
               class="modal-close cursor-pointer z-50"
@@ -65,8 +67,7 @@
                   'hover:text-blue-600': tab === 'register',
                 }"
                 href="#"
-                >Login</a
-              >
+              >Login</a>
             </li>
             <li class="flex-auto text-center">
               <a
@@ -78,17 +79,15 @@
                     tab === 'register',
                   'hover:text-blue-600': tab === 'login',
                 }"
-                >Register</a
-              >
+              >Register</a>
             </li>
           </ul>
 
           <!-- Login Form -->
-        <login-form v-if="tab==='login'" />
+          <login-form v-if="tab==='login'" />
 
           <!-- Registration Form -->
-        <register-form v-else />
-        
+          <register-form v-else />
         </div>
       </div>
     </div>
@@ -96,43 +95,43 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from "vuex";
+import { mapMutations, mapState } from 'vuex';
 import LoginForm from './LoginForm.vue';
-import RegisterForm from './RegisterForm.vue'
+import RegisterForm from './RegisterForm.vue';
 
 export default {
-  name: "Auth",
+  name: 'Auth',
   components: {
     LoginForm,
-    RegisterForm
+    RegisterForm,
   },
 
   data() {
     return {
-      tab: "login",
+      tab: 'login',
 
       loginSchema: {
-         email: "required|email",
-        password: "required|min:3|max:100",
-      }
+        email: 'required|email',
+        password: 'required|min:3|max:100',
+      },
     };
   },
   computed: {
-    // ...mapState({
-    //   modal:'authModalShow'
-    // })
-    ...mapState(["authModalShow"]),
+    ...mapState({
+      authModalShow: (state) => state.auth.authModalShow 
+    })
+    // ...mapState(['authModalShow']),
   },
   methods: {
-    ...mapMutations(["toggleAuthModal"]),
+    ...mapMutations(['toggleAuthModal']),
     showLogin() {
-      this.tab = "login";
+      this.tab = 'login';
     },
     showRegister() {
-      this.tab = "register";
+      this.tab = 'register';
     },
     isRequired(value) {
-      return value ? true : "This field is required";
+      return value ? true : 'This field is required';
     },
   },
 };

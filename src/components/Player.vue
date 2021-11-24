@@ -16,11 +16,14 @@
     <div class="relative">
       <!-- Play/Pause Button -->
       <div class="float-left w-7 h-7 leading-3">
-        <button type="button" @click.prevent="toggleAudio">
-          <i 
-          class="fa text-gray-500 text-xl" 
+        <button
+          type="button"
+          @click.prevent="toggleAudio"
+        >
+          <i
+            class="fa text-gray-500 text-xl"
             :class="{'fa-play': !playing , 'fa-pause':playing}"
-            />
+          />
         </button>
       </div>
       <!-- Current Position -->
@@ -53,8 +56,8 @@
           "
         >
           <div v-if="currentSong.modified_name">
-          <span class="song-title">{{currentSong.modified_name}}</span> by
-          <span class="song-artist">Uploaded by {{currentSong.display_name}}</span>
+            <span class="song-title">{{ currentSong.modified_name }}</span> by
+            <span class="song-artist">Uploaded by {{ currentSong.display_name }}</span>
           </div>
         </div>
         <!-- Scrub Container  -->
@@ -108,22 +111,29 @@
           mt-1
         "
       >
-        <span class="player-duration">{{duration}}</span>
+        <span class="player-duration">{{ duration }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from "vuex";
+import { mapActions, mapGetters, mapState } from 'vuex';
+
 export default {
-  name: "Player",
+  name: 'Player',
   computed: {
     ...mapGetters(['playing']),
-    ...mapState(['seek', 'duration','playerProgress', 'currentSong'])
+    ...mapState({
+      seek:(state) => state.player.seek,
+      duration: (state)=> state.player.duration,
+      playerProgress: (state)=>state.player.playerProgress,
+      currentSong: (state)=> state.player.currentSong
+    }),
+    // ...mapState(['seek', 'duration', 'playerProgress', 'currentSong']),
   },
   methods: {
-    ...mapActions(["toggleAudio","updateSeek"]),
+    ...mapActions(['toggleAudio', 'updateSeek']),
   },
 };
 </script>

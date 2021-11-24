@@ -1,12 +1,14 @@
 <template>
   <div class="border border-gray-200 p-3 mb-4 rounded">
     <div v-show="!showForm">
-      <h4 class="inline-block text-2xl font-bold">{{song.modified_name}}</h4>
+      <h4 class="inline-block text-2xl font-bold">
+        {{ song.modified_name }}
+      </h4>
       <button
         class="ml-1 py-1 px-2 text-sm rounded text-white bg-red-600 float-right"
         @click.prevent="deleteSong"
       >
-        <i class="fa fa-times"></i>
+        <i class="fa fa-times" />
       </button>
       <button
         class="
@@ -21,18 +23,22 @@
         "
         @click.prevent="showForm = !showForm"
       >
-        <i class="fa fa-pencil-alt"></i>
+        <i class="fa fa-pencil-alt" />
       </button>
     </div>
     <div v-show="showForm">
-      <div class="text-white text-center font-bold mb-4 p-4"
-      v-if="show_alert"
-      :class="alert_variant"
-
+      <div
+        class="text-white text-center font-bold mb-4 p-4"
+        v-if="show_alert"
+        :class="alert_variant"
       >
-        {{alert_message}}
+        {{ alert_message }}
       </div>
-      <vee-form :validation-schema="schema" @submit="edit" :initial-values="song">
+      <vee-form
+        :validation-schema="schema"
+        @submit="edit"
+        :initial-values="song"
+      >
         <div class="mb-3">
           <label class="inline-block mb-2">Song Title</label>
           <vee-field
@@ -53,13 +59,16 @@
             @input="updateUnsavedFlag(true)"
             placeholder="Enter Song Title"
           />
-          <ErrorMessage class="text-red-500" name='modified_name' />
+          <ErrorMessage
+            class="text-red-500"
+            name="modified_name"
+          />
         </div>
         <div class="mb-3">
           <label class="inline-block mb-2">Genre</label>
           <vee-field
             type="text"
-            name='genre'
+            name="genre"
             class="
               block
               w-full
@@ -75,7 +84,10 @@
             @input="updateUnsavedFlag(true)"
             placeholder="Enter Genre"
           />
-          <ErrorMessage class="text-red-500" name='genre' />
+          <ErrorMessage
+            class="text-red-500"
+            name="genre"
+          />
         </div>
         <button
           type="submit"
@@ -87,8 +99,8 @@
         <button
           type="button"
           class="py-1.5 px-3 rounded text-white bg-gray-600"
-           @click.prevent="showForm = false"
-           :disabled="in_submission"
+          @click.prevent="showForm = false"
+          :disabled="in_submission"
         >
           Go Back
         </button>
@@ -99,22 +111,22 @@
 
 <script>
 
-import {songsCollection , storage} from '../includes/firebase'
+import { songsCollection, storage } from '../includes/firebase';
+
 export default {
-  name: "CompositionItem",
+  name: 'CompositionItem',
   data() {
     return {
       showForm: false,
       schema: {
-        modified_name: "required",
-        genre:"alpha_spaces"
+        modified_name: 'required',
+        genre: 'alpha_spaces',
       },
       in_submission: false,
-      show_alert:false,
-      alert_variant:'bg-blue-500',
-      alert_message: 'Please wait! updating content ...'
+      show_alert: false,
+      alert_variant: 'bg-blue-500',
+      alert_message: 'Please wait! updating content ...',
     };
-
   },
   props: {
     song: {
@@ -122,44 +134,44 @@ export default {
       required: true,
     },
     updateSong: {
-      type:Function,
+      type: Function,
       required: true,
     },
     index: {
       type: Number,
-      required: true
+      required: true,
     },
     removeSong: {
       type: Function,
-      required: true
+      required: true,
     },
     updateUnsavedFlag: {
-      type:Function
-    }
+      type: Function,
+    },
   },
   methods: {
-    async edit(values){
-     this.in_submission= true;
-     this.show_alert= true;
-     this.alert_variant='bg-blue-500';
-     this.alert_message= 'Please wait! updating content ...';
+    async edit(values) {
+      this.in_submission = true;
+      this.show_alert = true;
+      this.alert_variant = 'bg-blue-500';
+      this.alert_message = 'Please wait! updating content ...';
 
-    try {
-         await songsCollection.doc(this.song.docId).update(values)
-    } catch (error) {
-      this.in_submission= false;
-      this.alert_variant= 'bg-red-500';
-      this.alert_message='Something went wrong! Try again later.'
+      try {
+        await songsCollection.doc(this.song.docId).update(values);
+      } catch (error) {
+        this.in_submission = false;
+        this.alert_variant = 'bg-red-500';
+        this.alert_message = 'Something went wrong! Try again later.';
 
-      return;
-    }
+        return;
+      }
 
-    this.updateSong(this.index, values);
-    this.updateUnsavedFlag(false);
+      this.updateSong(this.index, values);
+      this.updateUnsavedFlag(false);
 
-    this.in_submission= false;
-    this.alert_variant= 'bg-green-500';
-    this.alert_message= 'Success'
+      this.in_submission = false;
+      this.alert_variant = 'bg-green-500';
+      this.alert_message = 'Success';
     },
 
     async deleteSong() {
@@ -170,10 +182,8 @@ export default {
 
       await songsCollection.doc(this.song.docId).delete();
 
-      this.removeSong(this.index)
-
-
-    }
-  }
+      this.removeSong(this.index);
+    },
+  },
 };
 </script>
